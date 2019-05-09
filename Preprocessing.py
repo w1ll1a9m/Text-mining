@@ -38,7 +38,7 @@ nlp = en_core_web_sm.load()
 
 
 
-L = pd.read_csv("lyrics.csv", index_col=0)
+L = pd.read_csv("all_songs_data_rock.csv", index_col=0)
 
 
 #dropnan values
@@ -84,7 +84,7 @@ def clean_text(texto):
     return texto
 
 
-L['lyrics'] = L['lyrics'].apply(clean_text)
+L['Lyrics'] = L['Lyrics'].apply(clean_text)
 
 
 
@@ -96,22 +96,26 @@ L['lyrics'] = L['lyrics'].apply(clean_text)
 
 
 #getting the word counts
-L['word_count'] = L['lyrics'].str.split().str.len()
+L['word_count'] = L['Lyrics'].str.split().str.len()
 
-#removing songs from invalid years
-L=L[L['year'] > 1975]
+# =============================================================================
+# #removing songs from invalid years
+# L=L[L['year'] > 1975]
+# 
+# #elimintate the 1-word songs 
+# L2 = L[L['word_count'] > 50]
+# 
+# 
+# L2.to_csv('lyrics_clean.csv', encoding='utf-8')
 
-#elimintate the 1-word songs 
-L2 = L[L['word_count'] > 50]
-
-
-L2.to_csv('lyrics_clean.csv', encoding='utf-8')
-
+# RapL = L2.loc[L['genre'] == 'Hip-Hop']
+# RockL = L2.loc[L['genre'] == 'Rock']
+# =============================================================================
 
 
 
-RapL = L2.loc[L['genre'] == 'Hip-Hop']
-RockL = L2.loc[L['genre'] == 'Rock']
+
+
 
 
 
@@ -121,6 +125,8 @@ RockL = L2.loc[L['genre'] == 'Rock']
 # %%
 
 
+L2 = L[['Artist','Lyrics','Year','word_count']]
 
+L2.to_csv("clean_all_songs_data_rock.csv")
 
 # %%
